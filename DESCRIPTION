@@ -25,3 +25,5 @@ Imports:
 Depends: 
     R (>= 2.10)
 LazyData: true
+URL: https://github.com/joao-mcarvalho/poolABC
+BugReports: https://github.com/joao-mcarvalho/poolABC/issues
