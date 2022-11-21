@@ -34,3 +34,4 @@ size, both upstream and downstream from that SNP. Finally, SNPs are removed
 from both ends of that initial block until all remaining SNPs are contained
 within a block of \code{window} size.
 }
+\keyword{internal}

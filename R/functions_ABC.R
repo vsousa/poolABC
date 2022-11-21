@@ -2146,6 +2146,8 @@ plot_param <- function(prior, posterior, limits, index, weights = NULL) {
 #'   statistics and the accepted summary statistics are contrasted with the
 #'   observed value.
 #'
+#' @importFrom rlang .data
+#'
 #' @examples
 #' # load the matrix with parameter values
 #' data(params)
@@ -2224,7 +2226,7 @@ plot_stats <- function(sumstat, target, accepted, index = NA, colour = TRUE) {
   main <- paste(stat.name, "from all simulations, accepted ones and target")
 
   # use ggplot to, well, plot the different sets of summary statistics
-  p <- ggplot2::ggplot(final, ggplot2::aes(stats, fill = info)) + ggplot2::geom_density(alpha = 0.5) +
+  p <- ggplot2::ggplot(final, ggplot2::aes(.data$stats, fill = .data$info)) + ggplot2::geom_density(alpha = 0.5) +
     # add the target, as a vertical line indicating the value, to the plot
     ggplot2::geom_vline(ggplot2::aes(xintercept = target, color = "target"), size = 1) +
     # set the desired color for the vertical line
@@ -2289,9 +2291,41 @@ plot_stats <- function(sumstat, target, accepted, index = NA, colour = TRUE) {
 #'   simulation (size S).
 #'
 #' @return list of locfit objects with the density of the posterior for each
-#'   parameter and of mean, mode and quantiles obtained using weighted quantiles
-#'   (https://aakinshin.net/posts/weighted-quantiles/)
-#'   (https://www.rdocumentation.org/packages/reldist/versions/1.6-6/topics/wtd.quantile)
+#'   parameter and of mean, mode and quantiles obtained using weighted
+#'   quantiles. The list has the following elements:
+#'
+#'   \item{merge}{obtained by simply merging all the posteriors into a single
+#'   one and fitting a local regression without any prior weighting.}
+#'
+#'   \item{merged_stat}{posterior point estimates for the corresponding merging
+#'   method, `merge`. This includes the median, mean, mode and various quantiles
+#'   of the posterior.}
+#'
+#'   \item{weighted}{each target was weighted by its distance to the `global`
+#'   summary statistics mean, giving more weight to the target subset of loci
+#'   with mean summary statistics closer to the mean across the genome.}
+#'
+#'   \item{weighted_stat}{posterior point estimates for the corresponding
+#'   merging method, `weighted`. This includes the median, mean, mode and
+#'   various quantiles of the posterior.}
+#'
+#'   \item{merge_reg}{each accepted point was weighted by its regression
+#'   weight.}
+#'
+#'   \item{merge_reg_stat}{posterior point estimates for the corresponding
+#'   merging method, `merge_reg`. This includes the median, mean, mode and
+#'   various quantiles of the posterior.}
+#'
+#'   \item{weighted_reg}{each target was weighted according to its distance to
+#'   the overall mean and each point was weighted by its regression weight.}
+#'
+#'   \item{weighted_reg_stat}{posterior point estimates for the corresponding
+#'   merging method, `weighted_reg`. This includes the median, mean, mode and
+#'   various quantiles of the posterior.}
+#'
+#'   Details about the output can be found at:
+#'   \url{https://aakinshin.net/posts/weighted-quantiles/} and
+#'   \url{https://www.rdocumentation.org/packages/reldist/versions/1.6-6/topics/wtd.quantile}
 #'
 #' @examples
 #' # load the matrix with parameter values
@@ -3704,6 +3738,8 @@ error_modelSel <- function(object, threshold = NA, print = TRUE) {
 #'
 #' @return a barplot of the proportion of simulations classified to any of the
 #'   models. In other words, a barplot of the confusion matrix.
+#'
+#' @importFrom rlang .data
 #'
 #' @examples
 #' # load the matrix with simulated parameter values

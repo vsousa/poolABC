@@ -1,0 +1,105 @@
+# Guidelines
+
+# I found this useful: https://support.ceci-hpc.be/doc/_contents/QuickStart/SubmittingJobs/SlurmTutorial.html
+
+# In the Slurm context, a task is to be understood as a process. 
+# So a multi-process program is made of several tasks. 
+# By contrast, a multithreaded program is composed of only one task, which uses several CPUs.
+# Tasks are requested/created with the --ntasks option 
+# while CPUs, for the multithreaded programs, are requested with the --cpus-per-task option. 
+
+# Tasks cannot be split across several compute nodes, so requesting several CPUs 
+# with the --cpus-per-task option will ensure all CPUs are allocated on the same compute node. 
+# By contrast, requesting the same amount of CPUs with the --ntasks option 
+# may lead to several CPUs being allocated on several, distinct compute nodes
+
+
+################################################
+1. login into INCD
+################################################
+
+# In terminal, type:
+
+ssh -A -l jgcarvalho cirrus.ncg.ingrid.pt
+
+# You will then be asked to enter your passphrase.
+
+
+################################################
+2. CREATE FOLDER STRUCTURE
+################################################
+
+# create a folder in your home space
+
+mkdir twoPops
+
+# inside this folder create one other folder
+
+mkdir ark
+
+
+################################################
+3. TO COPY FROM YOUR COMPUTER TO HPC USE RSYNC
+################################################
+
+################################################
+# 3.1 copy files from my computer to the folder associated with the FCT project
+
+# copy R files
+	
+rsync -avPS /home/jcarvalho/Desktop/twoPops/ARK/sims/*.R jgcarvalho@cirrus.ncg.ingrid.pt:/users3/fculce3c/jgcarvalho/twoPops
+
+# and copy sh files
+	
+rsync -avPS /home/jcarvalho/Desktop/twoPops/ARK/sims/*.sh jgcarvalho@cirrus.ncg.ingrid.pt:/users3/fculce3c/jgcarvalho/twoPops
+
+
+################################################
+4. TO RUN THE TESTR SCRIPT
+################################################
+
+################################################
+# 4.1. run with 1 node and 1 task - 1 runs of 5k sims
+
+sbatch --export=ALL,nruns_s=1,nruns_e=1,foldertag='sims' createFolders.sh
+
+################################################
+# 4.2. check the queue/partition status 
+
+squeue -u jgcarvalho
+
+################################################
+# 4.3. Launch the simulations
+
+sbatch --export=ALL,foldertag='sims' --array=1-1 launchSims.sh
+
+# JOBID is 6932393
+# check information using
+
+sacct -j 6932393 
+or
+sacct -j 6932393 -o jobid,submit,start,end,state
+
+# to check how long did the job took
+
+sacct -j 6932393 -o elapsed
+
+################################################
+# 4.4. compress the folder and download
+
+# compress the "sims" folder 
+sbatch --export=ALL,wrkdir="./ark",foldertag='sims' compressFolders.sh
+
+# to download run this in the destinaton folder
+rsync -avPS jgcarvalho@cirrus.ncg.ingrid.pt:/users3/fculce3c/jgcarvalho/twoPops/*.gz  /home/jcarvalho/Desktop/twoPops/ARK/sims
+
+################################################
+4.5. if you wish, you can remove all files from the server after the download
+
+rm -rv /users3/fculce3c/jgcarvalho/twoPops
+
+################################################
+# ARRAY JOBS 
+# useful info:
+# https://docs.csc.fi/computing/running/array-jobs/ 
+# https://slurm.schedmd.com/job_array.html

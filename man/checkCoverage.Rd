@@ -75,3 +75,4 @@ removed from the dataset. More precisely, if the sum of the number of major
 and minor allele reads of one population is not equal to the coverage of that
 population, then that site is removed from the data for all the populations.
 }
+\keyword{internal}

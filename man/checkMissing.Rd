@@ -71,3 +71,4 @@ removed from the dataset. More precisely, if a single population has an "N"
 as the reference character of their major allele, then that site is removed
 from the data for all the populations.
 }
+\keyword{internal}

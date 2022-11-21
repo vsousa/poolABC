@@ -75,3 +75,14 @@ below the threshold are removed from the dataset. If no threshold is
 supplied, the threshold is assumed to be \code{1/total coverage}, meaning
 that a site should have, at least, one minor-allele read.
 }
+\examples{
+# load the data from one rc file
+data(rc1)
+
+# clean and organize the data in this single file
+mydata <- cleanData(file = rc1, pops = 7:10)
+
+# organize the information by contigs
+prepareFile(data = mydata, nPops = 4)
+
+}

@@ -23,7 +23,9 @@ Imports:
     locfit,
     MetricsWeighted,
     nnet,
+    poolHelper (>= 0.0.0.9000),
     RColorBrewer,
+    rlang,
     scrm,
     stats,
     utils
@@ -32,3 +34,9 @@ Depends:
 LazyData: true
 URL: https://github.com/joao-mcarvalho/poolABC
 BugReports: https://github.com/joao-mcarvalho/poolABC/issues
+Remotes: 
+    joao-mcarvalho/poolHelper
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

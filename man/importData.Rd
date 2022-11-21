@@ -47,3 +47,4 @@ the first 9 columns of the matrix plus the 15th and 16th columns and the
 corresponding columns with the number of minor-allele reads for those
 populations.
 }
+\keyword{internal}

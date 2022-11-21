@@ -35,3 +35,16 @@ models will always follow the same order: the two divergent ecotypes in the
 first location, followed by the two divergent ecotypes in the second
 location.
 }
+\examples{
+# create a vector with parameter values for a two populations model
+params <- createParams(Nref = c(25000, 25000), ratio = c(0.1, 3), pool = c(5, 250),
+seq = c(0.0001, 0.001), split = c(0, 3), CW = c(1e-13, 1e-3), WC = c(1e-13, 1e-3),
+bT = c(0, 0.2), model = "2pops")
+
+# create the command line for the scrm package
+cmds <- cmd2pops(parameters = params, nSites = 2000, nLoci = 10, nDip = 100, mutrate = 2e-8)
+
+# run SCRM and obtain the genotypes
+runSCRM(commands = cmds, nDip = 100, nPops = 2, model = "2pops")
+
+}

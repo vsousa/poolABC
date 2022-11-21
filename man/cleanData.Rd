@@ -67,3 +67,10 @@ in all populations is not zero will be removed from the dataset. Note that if
 you wish to import the data for the 5th and 6th population, then you should
 define the \code{pops} input as \code{pops = c(5, 6)}.
 }
+\examples{
+# load the data from one rc file
+data(rc1)
+# clean and organize the data in this single file
+cleanData(file = rc1, pops = 7:10)
+
+}

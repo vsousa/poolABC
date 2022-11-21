@@ -26,9 +26,41 @@ simulation (size S).}
 }
 \value{
 list of locfit objects with the density of the posterior for each
-parameter and of mean, mode and quantiles obtained using weighted quantiles
-(https://aakinshin.net/posts/weighted-quantiles/)
-(https://www.rdocumentation.org/packages/reldist/versions/1.6-6/topics/wtd.quantile)
+parameter and of mean, mode and quantiles obtained using weighted
+quantiles. The list has the following elements:
+
+\item{merge}{obtained by simply merging all the posteriors into a single
+one and fitting a local regression without any prior weighting.}
+
+\item{merged_stat}{posterior point estimates for the corresponding merging
+method, \code{merge}. This includes the median, mean, mode and various quantiles
+of the posterior.}
+
+\item{weighted}{each target was weighted by its distance to the \code{global}
+summary statistics mean, giving more weight to the target subset of loci
+with mean summary statistics closer to the mean across the genome.}
+
+\item{weighted_stat}{posterior point estimates for the corresponding
+merging method, \code{weighted}. This includes the median, mean, mode and
+various quantiles of the posterior.}
+
+\item{merge_reg}{each accepted point was weighted by its regression
+weight.}
+
+\item{merge_reg_stat}{posterior point estimates for the corresponding
+merging method, \code{merge_reg}. This includes the median, mean, mode and
+various quantiles of the posterior.}
+
+\item{weighted_reg}{each target was weighted according to its distance to
+the overall mean and each point was weighted by its regression weight.}
+
+\item{weighted_reg_stat}{posterior point estimates for the corresponding
+merging method, \code{weighted_reg}. This includes the median, mean, mode and
+various quantiles of the posterior.}
+
+Details about the output can be found at:
+\url{https://aakinshin.net/posts/weighted-quantiles/} and
+\url{https://www.rdocumentation.org/packages/reldist/versions/1.6-6/topics/wtd.quantile}
 }
 \description{
 After using the \code{\link[=multipleABC]{multipleABC()}} function to perform parameter estimation with

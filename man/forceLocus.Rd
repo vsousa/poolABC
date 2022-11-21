@@ -102,3 +102,15 @@ based on a required number of minor-allele reads per site. Those filters
 remove some loci from the data. The extra simulated loci should allow us to
 keep the required number of loci per type of simulation even after filtering.
 }
+\examples{
+# create a vector with parameter values for a two populations model
+params <- createParams(Nref = c(25000, 25000), ratio = c(0.1, 3), pool = c(5, 250),
+seq = c(0.0001, 0.001), split = c(0, 3), CW = c(1e-13, 1e-3), WC = c(1e-13, 1e-3),
+bT = c(0, 0.2), model = "2pops")
+
+# simulate exactly 10 loci - using an isolation with migration model with two populations
+forceLocus(model = "2pops", parameters = params, nSites = 1000, nLoci = 10, nDip = 100,
+mutrate = 2e-8, mean = c(100, 100), variance = c(250, 250), minimum = 10, maximum = 200,
+size = list(50, 50), min.minor = 0)
+
+}

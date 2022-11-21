@@ -69,13 +69,16 @@ createHeader <- function(nPops) {
 #'   matrix will also contain column names as defined by the \code{header}
 #'   input.
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 importData <- function(file, pops = NA, header = NA, remove = NA) {
 
   # import the data
-  data <- utils::read.table(file = file, header = FALSE, stringsAsFactors = FALSE)
+  if(inherits(file, "character"))
+    data <- utils::read.table(file = file, header = FALSE, stringsAsFactors = FALSE)
+  else
+    data <- file
 
   # remove all sites with more than two alleles
   data <- data[data[, 4] == 2, ]
@@ -184,7 +187,7 @@ importData <- function(file, pops = NA, header = NA, remove = NA) {
 #'   any sites where the total depth of coverage does not match the sum of the
 #'   major and minor allele reads.
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 checkCoverage <- function(nPops, info, major, minor, rMajor, rMinor, coverage) {
@@ -271,7 +274,7 @@ checkCoverage <- function(nPops, info, major, minor, rMajor, rMinor, coverage) {
 #'   any sites where any of the populations has an "N" as the reference
 #'   character for the major allele.
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 checkMissing <- function(info, major, minor, rMajor, rMinor, coverage) {
@@ -361,7 +364,7 @@ checkMissing <- function(info, major, minor, rMajor, rMinor, coverage) {
 #'   Each of those matrices is similar to the corresponding input but with the
 #'   major and minor allele switched when appropriate.
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 checkMajor <- function(nPops, major, minor, rMajor, rMinor) {
@@ -533,6 +536,10 @@ checkMajor <- function(nPops, major, minor, rMajor, rMinor) {
 #'   populations. Each row of this data frame corresponds to a different site}
 #'
 #' @examples
+#' # load the data from one rc file
+#' data(rc1)
+#' # clean and organize the data in this single file
+#' cleanData(file = rc1, pops = 7:10)
 #'
 #' @export
 cleanData <- function(file, pops, header = NA, remove = NA, min.minor = NA) {
@@ -685,7 +692,7 @@ cleanData <- function(file, pops, header = NA, remove = NA, min.minor = NA) {
 #'   input but without any sites where the frequency of the minor-allele is
 #'   below a certain threshold.
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 filterData <- function(rMajor, rMinor, coverage, info, threshold = NA) {
@@ -797,6 +804,14 @@ filterData <- function(rMajor, rMinor, coverage, info, threshold = NA) {
 #'   a different site and each column is a different population.}
 #'
 #' @examples
+#' # load the data from one rc file
+#' data(rc1)
+#'
+#' # clean and organize the data in this single file
+#' mydata <- cleanData(file = rc1, pops = 7:10)
+#'
+#' # organize the information by contigs
+#' prepareFile(data = mydata, nPops = 4)
 #'
 #' @export
 prepareFile <- function(data, nPops, filter = FALSE, threshold = NA) {
@@ -954,6 +969,16 @@ prepareFile <- function(data, nPops, filter = FALSE, threshold = NA) {
 #'   a different site and each column is a different population.}
 #'
 #' @examples
+#' # load the data from two rc files
+#' data(rc1, rc2)
+#' # combine both files into a single list
+#' mydata <- list(rc1, rc2)
+#'
+#' # clean and organize the data for both files
+#' mydata <- lapply(mydata, function(i) cleanData(file = i, pops = 7:10))
+#'
+#' # organize the information by contigs
+#' prepareData(data = mydata, nPops = 4)
 #'
 #' @export
 prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
@@ -1211,7 +1236,8 @@ importContigs <- function(path, pops, files = NA, header = NA, remove = NA, min.
   }
 
   # combine the lists with information about SNP frequencies, positions, contig range and depth of coverage
-  output <- list(freqs = freqs, positions = positions, range = range, rMajor = rMajor, rMinor = rMinor, coverage = coverage)
+  output <- list(freqs = freqs, positions = positions, range = range, rMajor = rMajor,
+                 rMinor = rMinor, coverage = coverage)
 
   # output the list containing all the relevant information
   output
@@ -1269,6 +1295,17 @@ importContigs <- function(path, pops, files = NA, header = NA, remove = NA, min.
 #'   removal of sites with too many or too few reads.
 #'
 #' @examples
+#' # load the data from one rc file
+#' data(rc1)
+#'
+#' # clean and organize the data in this single file
+#' mydata <- cleanData(file = rc1, pops = 7:10)
+#'
+#' # organize the information by contigs
+#' mydata <- prepareFile(data = mydata, nPops = 4)
+#'
+#' # remove sites with less than 10 reads or more than 180
+#' remove_realReads(nPops = 4, data = mydata, minimum = 10, maximum = 180)
 #'
 #' @export
 remove_realReads <- function(nPops, data, minimum, maximum) {
@@ -1393,6 +1430,17 @@ remove_realReads <- function(nPops, data, minimum, maximum) {
 #'   removal of sites with too many or too few reads.
 #'
 #' @examples
+#' # load the data from one rc file
+#' data(rc1)
+#'
+#' # clean and organize the data in this single file
+#' mydata <- cleanData(file = rc1, pops = 7:10)
+#'
+#' # organize the information by contigs
+#' mydata <- prepareFile(data = mydata, nPops = 4)
+#'
+#' # remove sites according to the coverage quantile
+#' remove_quantileReads(nPops = 4, data = mydata)
 #'
 #' @export
 remove_quantileReads <- function(nPops, data) {
@@ -1479,118 +1527,6 @@ remove_quantileReads <- function(nPops, data) {
 }
 
 
-#' Remove sites, according to their coverage, from windows of the real data
-#'
-#' Removes sites that have too many or too few reads from blocks (or windows) of
-#' a given base pair size.
-#'
-#' The 25% and the 75% quantiles of the coverage distribution is computed for
-#' each population in the dataset. Then, the lowest 25% quantile across all
-#' populations is considered the minimum depth of coverage allowed. Similarly,
-#' the highest 75% quantile across all populations is considered the maximum
-#' depth of coverage allowed. The coverage of each population at each site is
-#' compared with those threshold values and any site, where the coverage of at
-#' least one population is below or above that threshold, is completely removed
-#' from the dataset.
-#'
-#' @param nPops An integer representing the total number of populations in the
-#'   dataset
-#' @param data A dataset containing information about real populations. This
-#'   dataset should have lists with the allelic frequencies, the number of major
-#'   allele reads and the depth of coverage
-#'
-#' @return  a list with the following elements:
-#'
-#'   \item{freqs}{a list with the allele frequencies, computed by dividing the
-#'   number of minor-allele reads by the total coverage. Each entry of this list
-#'   corresponds to a different contig. Each entry is a matrix where each row is
-#'   a different site and each column is a different population.}
-#'
-#'   \item{positions}{a list with the positions of each SNP. Each entry of this
-#'   list is a vector corresponding to a different contig.}
-#'
-#'   \item{range}{a list with the minimum and maximum SNP position of each
-#'   contig. Each entry of this list is a vector corresponding to a different
-#'   contig.}
-#'
-#'   \item{rMajor}{a list with the number of major-allele reads. Each entry of
-#'   this list corresponds to a different contig. Each entry is a matrix where
-#'   each row is a different site and each column is a different population.}
-#'
-#'   \item{rMinor}{a list with the number of minor-allele reads. Each entry of
-#'   this list corresponds to a different contig. Each entry is a matrix where
-#'   each row is a different site and each column is a different population.}
-#'
-#'   \item{coverage}{a list with the total coverage. Each entry of this list
-#'   corresponds to a different contig. Each entry is a matrix where each row is
-#'   a different site and each column is a different population.}
-#'
-#'   This output is identical to the `data` input, the only difference being the
-#'   removal of sites with too many or too few reads.
-#'
-#'
-#' @examples
-#'
-#' @export
-remove_windowReads <- function(nPops, data) {
-
-  # check if the data is in the correct input format
-  if(any(names(data) != c("freqs", "rMajor", "coverage")))
-    stop("The data is not in the correct format! Please check")
-
-  # get the number of contigs in the dataset
-  nContigs <- length(data[["coverage"]])
-
-  # get the coverage of each of the populations
-  coverage <- lapply(1:nPops, function(pop) lapply(data[["coverage"]], function(contig) contig[, pop, drop = FALSE]))
-  # convert the coverage of each population into a single vector
-  coverage <- lapply(coverage, function(pop) unname(unlist(pop)))
-
-  # calculate the 25% and the 75% quantile of the coverage distribution for each of the populations
-  quantiles <- lapply(coverage, function(pop) stats::quantile(pop, probs = c(0.25, 0.75)))
-  # get the minimum depth of coverage from the quantiles - i.e. which of the 25% quantiles is the lowest
-  minimum <- min(unlist(quantiles))
-  # get the maximum depth of coverage from the quantiles - i.e. which of the 75% quantiles is the highest
-  maximum <- max(unlist(quantiles))
-
-  # find out which sites are below or above a certain coverage threshold
-  tokeep <- lapply(data[["coverage"]], function(contig) contig >= minimum & contig <= maximum)
-
-  # to find out which sites, i.e. which rows, should be kept
-  # we need to find the rows where the previous evaluates to true in all the populations
-  tokeep <- lapply(tokeep, function(contig) rowSums(contig) == nPops)
-
-  # remove sites below or above the coverage threshold
-  # 1- from the list containing the information about the depth of coverage
-  data[["coverage"]] <- lapply(1:nContigs, function(contig)
-    data[["coverage"]][[contig]][tokeep[[contig]], , drop = FALSE])
-  # 2 - from the list containing the allele frequencies
-  data[["freqs"]] <- lapply(1:nContigs, function(contig)
-    data[["freqs"]][[contig]][tokeep[[contig]], , drop = FALSE])
-  # 3- from the list containing the number of reads for the major allele
-  data[["rMajor"]] <- lapply(1:nContigs, function(contig)
-    data[["rMajor"]][[contig]][tokeep[[contig]], , drop = FALSE])
-
-  # we need to remove empty list elements i.e. contigs that have no sites left after the filtering
-  # first, get the list elements to remove
-  toremove <- sapply(data[["coverage"]], nrow) == 0
-  # if there are any contigs to remove
-  if(sum(toremove) != 0) {
-
-    # remove those elements from the lists
-    # 1 - from the list containing the information about the depth of coverage
-    data[["coverage"]] <- data[["coverage"]][!toremove]
-    # 2 - from the list containing the allele frequencies
-    data[["freqs"]] <- data[["freqs"]][!toremove]
-    # 3- from the list containing the number of reads for the major allele
-    data[["rMajor"]] <- data[["rMajor"]][!toremove]
-  }
-
-  # output the dataset
-  data
-}
-
-
 #' Obtain the index of SNPs inside a block with defined size
 #'
 #' Selects a random block of a smaller size from a larger contig and obtain the
@@ -1615,13 +1551,14 @@ remove_windowReads <- function(nPops, data) {
 #' @return a numeric vector containing the index of the SNPs present within a
 #'   randomly selected window of a given contig.
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 indexSNPs <- function(positions, range, window) {
 
   # set the default output of the function:
-  # if there are NO windows with SNPs sufficiently far from the edges of the contig - the output of this function will be a 0
+  # if there are NO windows with SNPs sufficiently far from the edges of the contig
+  # the output of this function will be a 0
   final_index <- 0
 
   # remove contig edges - remove a block of "window" size from the start and the end of the contig
@@ -1744,7 +1681,6 @@ indexSNPs <- function(positions, range, window) {
 #'   \item{coverage}{a list with the total coverage. Each entry of this list
 #'   corresponds to a different contig. Each entry is a matrix where each row is
 #'   a different site and each column is a different population.}
-#'
 #'
 #' @examples
 #'

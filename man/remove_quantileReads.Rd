@@ -58,3 +58,17 @@ compared with those threshold values and any site, where the coverage of at
 least one population is below or above that threshold, is completely removed
 from the dataset.
 }
+\examples{
+# load the data from one rc file
+data(rc1)
+
+# clean and organize the data in this single file
+mydata <- cleanData(file = rc1, pops = 7:10)
+
+# organize the information by contigs
+mydata <- prepareFile(data = mydata, nPops = 4)
+
+# remove sites according to the coverage quantile
+remove_quantileReads(nPops = 4, data = mydata)
+
+}

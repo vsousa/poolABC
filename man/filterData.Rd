@@ -62,3 +62,4 @@ frequency is below the threshold are removed from the dataset. If no
 threshold is supplied, the threshold is assumed to be \code{1/total
 coverage}, meaning that a site should have, at least, one minor-allele read.
 }
+\keyword{internal}

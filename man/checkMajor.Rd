@@ -71,3 +71,4 @@ the switch, is larger than the total number of minor-allele reads. If this is
 not true, then we switch the major and minor allele so that the more frequent
 one corresponds to the major allele.
 }
+\keyword{internal}

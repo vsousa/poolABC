@@ -1,0 +1,89 @@
+################################################
+1. login into INCD
+################################################
+
+# In terminal, type:
+
+ssh -A -l jgcarvalho cirrus.ncg.ingrid.pt
+
+# You will then be asked to enter your passphrase.
+
+
+################################################
+2. CREATE FOLDER STRUCTURE
+################################################
+
+# create a folder in your home space
+
+mkdir fourPops
+
+# inside this folder create one other folder
+
+mkdir swe
+
+# all of this can be done with a single command:
+
+mkdir -p fourPops/swe
+
+
+################################################
+3. TO COPY FROM YOUR COMPUTER TO HPC USE RSYNC
+################################################
+
+################################################
+# 3.1 copy files from my computer to the folder associated with the FCT project
+
+# copy R files
+	
+rsync -avPS /home/jcarvalho/Desktop/fourPops/Parallel/sims/*.R jgcarvalho@cirrus.ncg.ingrid.pt:/users3/fculce3c/jgcarvalho/fourPops
+
+# and copy sh files
+	
+rsync -avPS /home/jcarvalho/Desktop/fourPops/Parallel/sims/*.sh jgcarvalho@cirrus.ncg.ingrid.pt:/users3/fculce3c/jgcarvalho/fourPops
+
+
+################################################
+4. TO RUN THE SIMULATIONS
+################################################
+
+################################################
+# 4.1. Create folders to save the results of the simulations
+
+sbatch --export=ALL,nruns_s=1,nruns_e=1,foldertag='sims' createFolders.sh
+
+################################################
+# 4.2. check the queue/partition status 
+
+squeue -u jgcarvalho
+
+################################################
+# 4.3. Launch the simulations
+
+sbatch --export=ALL,foldertag='sims' --array=1-1 launchSims.sh
+
+# JOBID is 4127371_1
+
+# check information using
+
+sacct -j 4127371_1 
+or
+sacct -j 4127371_1 -o jobid,submit,start,end,state
+
+# to check how long did the job took
+
+sacct -j 4127371_1 -o elapsed
+# it took 08:40:15 to complete
+
+################################################
+# 4.4. compress the folder and download
+
+# compress the "sims" folder 
+sbatch --export=ALL,wrkdir="./swe",foldertag='sims' compressFolders.sh
+
+# to download run this in the destinaton folder
+rsync -avPS jgcarvalho@cirrus.ncg.ingrid.pt:/users3/fculce3c/jgcarvalho/fourPops/*.gz  /home/jcarvalho/Desktop/fourPops/Parallel/sims
+
+################################################
+4.5. if you wish, you can remove all files from the server after the download
+
+rm -rv /users3/fculce3c/jgcarvalho/fourPops
