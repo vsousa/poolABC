@@ -1199,7 +1199,7 @@ regABC <- function(rej, parameter, tol = 1, simple = FALSE) {
 #'   argument. If the `stat.names` input argument is available, the summary
 #'   statistics will be named.
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 statsContig <- function(randomWindows, nPops, stat.names = NA) {

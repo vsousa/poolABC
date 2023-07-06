@@ -36,3 +36,4 @@ subset is composed of randomly selected windows of the observed data. Those
 random windows should be selected from multiple contigs, treating each contig
 as a different locus.
 }
+\keyword{internal}

@@ -79,3 +79,4 @@ within a block of \code{window} size. All of these steps are performed for
 each of the contigs present in the dataset, obtaining one window per contig.
 Note that, in the end, only \code{nLoci} windows are kept.
 }
+\keyword{internal}

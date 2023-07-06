@@ -50,9 +50,9 @@ package to run the model.
 \details{
 For convenience, imagine we have two divergent ecotypes, named C and W. This
 model assumes that the first population corresponds to the C ecotype at the
-first location, the second population to the C ecotype in the first location,
-the third population to the W ecotype in the second location and the fourth
-population to the W ecotype in the second location.
+first location, the second population to the C ecotype in the second
+location, the third population to the W ecotype in the first location and the
+fourth population to the W ecotype in the second location.
 }
 \examples{
 # create a vector with parameter values for the single origin scenario

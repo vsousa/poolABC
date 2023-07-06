@@ -356,9 +356,9 @@ cmd2pops <- function(parameters, nSites, nLoci, nDip, mutrate, extra = FALSE) {
 #'
 #' For convenience, imagine we have two divergent ecotypes, named C and W. This
 #' model assumes that the first population corresponds to the C ecotype at the
-#' first location, the second population to the C ecotype in the first location,
-#' the third population to the W ecotype in the second location and the fourth
-#' population to the W ecotype in the second location.
+#' first location, the second population to the C ecotype in the second
+#' location, the third population to the W ecotype in the first location and the
+#' fourth population to the W ecotype in the second location.
 #'
 #' @param parameters A vector where each entry corresponds to a different
 #'   parameter, e.g. one entry is the size of the reference population, another
@@ -1143,7 +1143,8 @@ forceLocus <- function(model, parameters, nSites, nLoci, nDip, mutrate, mean, va
 
   # remove sites with a depth of coverage above or below the defined threshold
   reads <- lapply(1:nSims, function(sim)
-    poolHelper::remove_by_reads(nLoci = length(reads[[sim]]), reads[[sim]], minimum, maximum, genotypes = genotypes[[sim]]))
+    poolHelper::remove_by_reads(nLoci = length(reads[[sim]]), reads[[sim]], minimum = minimum,
+                                maximum = maximum, genotypes = genotypes[[sim]]))
 
   # get the genotypes - without sites simulated with a coverage below or above the threshold
   genotypes <- lapply(reads, FUN = function(sim) lapply(sim, "[[", 2))
@@ -1166,7 +1167,7 @@ forceLocus <- function(model, parameters, nSites, nLoci, nDip, mutrate, mean, va
 
   # simulate the number of reference reads
   reference <- lapply(1:nSims, FUN = function(sim) lapply(1:length(genotypes[[sim]]), function(locus)
-    poolHelper::numberReferencePop(genotypes = genotypes[[sim]][[locus]],indContribution = indContribution[[sim]][[locus]],
+    poolHelper::numberReferencePop(genotypes = genotypes[[sim]][[locus]], indContribution = indContribution[[sim]][[locus]],
                                    size = size, error = parameters["SeqError"])))
 
   # simulate pooled sequencing data
@@ -1174,15 +1175,20 @@ forceLocus <- function(model, parameters, nSites, nLoci, nDip, mutrate, mean, va
     poolHelper::poolPops(nPops, nLoci=length(indContribution[[sim]]), indContribution=indContribution[[sim]],
                          readsReference=reference[[sim]]))
 
-  # define major and minor alleles
-  pool <- lapply(1:nSims, function(sim) lapply(1:length(pool[[sim]][["total"]]), function(locus)
-    poolHelper::minorPool(reference = pool[[sim]][["reference"]][[locus]], alternative = pool[[sim]][["alternative"]][[locus]],
-                          coverage = pool[[sim]][["total"]][[locus]], min.minor)))
+  # if min.minor is not zero - filter out the sites with less than the required number of minor-allele reads
+  if(min.minor != 0)
+    pool <- poolHelper::filterPool(pool = pool, nloci = nLoci, min.minor = min.minor)
+
+  # use an lapply to ensure that the reference allele of the simulations is also the major allele
+  pool <- lapply(X = pool, function(sim) lapply(1:length(sim[["reference"]]), function(locus)
+    poolHelper::findMinor(reference = sim[["reference"]][[locus]], alternative = sim[["alternative"]][[locus]],
+                          coverage = sim[["total"]][[locus]])))
 
   # convert the pool list back to the previous format:
   # one entry for major allele, one for minor allele and a final one for total coverage
   pool <- lapply(1:nSims, function(sim)
-    list(major = lapply(pool[[sim]], function(locus) locus[["major"]]), minor = lapply(pool[[sim]], function(locus) locus[["minor"]]),
+    list(major = lapply(pool[[sim]], function(locus) locus[["major"]]),
+         minor = lapply(pool[[sim]], function(locus) locus[["minor"]]),
          total = lapply(pool[[sim]], function(locus) locus[["total"]])))
 
   # remove loci without polymorphic sites and randomly select the required number of loci per category
@@ -1431,7 +1437,8 @@ poolStats <- function(parameters, model, nDip, size, nLoci, nSites, mutrate, mea
     reads <- poolHelper::simulateCoverage(mean, variance, genotypes = genotypes)
 
     # remove sites with a depth of coverage above or below the defined threshold
-    reads <- poolHelper::remove_by_reads(nLoci = nLoci, reads, minimum = minimum, maximum = maximum, genotypes = genotypes)
+    reads <- poolHelper::remove_by_reads(nLoci = nLoci, reads, minimum = minimum, maximum = maximum,
+                                         genotypes = genotypes)
 
     # get the genotypes - without sites simulated with a coverage below or above the threshold
     genotypes <- lapply(reads, function(locus) locus[[2]])
@@ -1463,12 +1470,17 @@ poolStats <- function(parameters, model, nDip, size, nLoci, nSites, mutrate, mea
                                      size = size, error = parameters["SeqError"]))
 
     # simulate pooled sequencing data
-    pool <- poolHelper::poolPops(nPops = nPops, nLoci = nLoci, indContribution = indContribution, readsReference = reference)
+    pool <- poolHelper::poolPops(nPops = nPops, nLoci = nLoci, indContribution = indContribution,
+                                 readsReference = reference)
 
-    # use an lapply to ensure that the reference allele of the simulations is also the major allele - do this for each locus
+    # if min.minor is not zero - filter out the sites with less than the required number of minor-allele reads
+    if(min.minor != 0)
+      pool <- poolHelper::filterPool(pool = pool, nloci = nLoci, min.minor = min.minor)
+
+    # use an lapply to ensure that the reference allele of the simulations is also the major allele
     pool <- lapply(1:nLoci, function(locus)
-      poolHelper::minorPool(reference = pool[["reference"]][[locus]], alternative = pool[["alternative"]][[locus]],
-                            coverage = pool[["total"]][[locus]], min.minor = 2))
+      poolHelper::findMinor(reference = pool[["reference"]][[locus]], alternative = pool[["alternative"]][[locus]],
+                            coverage = pool[["total"]][[locus]]))
 
     # convert the pool list back to the previous format
     # one entry for reference matrices, one for alternative and a final one for total matrices
@@ -1483,7 +1495,9 @@ poolStats <- function(parameters, model, nDip, size, nLoci, nSites, mutrate, mea
     # we only wish to keep locus where we have at least one polymorphic site
     tokeep <- dimensions[, 2] != 0
     # remove all loci without polymorphic sites
-    pool[["major"]] <- pool[["major"]][tokeep]; pool[["minor"]] <- pool[["minor"]][tokeep]; pool[["total"]] <- pool[["total"]][tokeep]
+    pool[["major"]] <- pool[["major"]][tokeep]
+    pool[["minor"]] <- pool[["minor"]][tokeep]
+    pool[["total"]] <- pool[["total"]][tokeep]
   }
 
   # it is possible that some loci were eliminated during the previous steps

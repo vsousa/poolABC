@@ -500,9 +500,13 @@ checkMajor <- function(nPops, major, minor, rMajor, rMinor) {
 #' specified number, will be removed from the data set.
 #'
 #' Note also that all non biallelic sites and sites where the sum of deletions
-#' in all populations is not zero will be removed from the dataset. Note that if
-#' you wish to import the data for the 5th and 6th population, then you should
-#' define the \code{pops} input as \code{pops = c(5, 6)}.
+#' in all populations is not zero will be removed from the dataset. Although
+#' this function can only import 2 or 4 populations at the time, it is possible
+#' to define which two or four populations to import. For instance, if we define
+#' the first population as the first column for which we have data in the x/y
+#' format, then you could wish to import the data for the 5th and 6th
+#' populations, defined as the populations in the 6th and 7th columns. To do so,
+#' you should define the \code{pops} input as \code{pops = c(5, 6)}.
 #'
 #' @param file is a character string indicating the path to the file you wish to
 #'   import.
@@ -1682,7 +1686,7 @@ indexSNPs <- function(positions, range, window) {
 #'   corresponds to a different contig. Each entry is a matrix where each row is
 #'   a different site and each column is a different population.}
 #'
-#' @examples
+#' @keywords internal
 #'
 #' @export
 pickWindows <- function(freqs, positions, range, rMajor, rMinor, coverage, window, nLoci) {

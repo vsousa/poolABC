@@ -1,8 +1,8 @@
 Package: poolABC
-Title: Tools for Approximate Bayesian Computation With Pooled Sequencing Data
-Version: 0.0.0.9000
+Title: Tools for Approximate Bayesian Computation with Pooled Sequencing Data
+Version: 0.9.9
 Authors@R: c(
-    person("João", "Carvalho", , "jgcarvalho@fc.ul.pt", role = c("aut", "cre"),
+    person("João", "Carvalho", , "jgcarvalho@fc.ul.pt", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-1728-0075")),
     person("Vítor", "Sousa", , "vmsousa@fc.ul.pt", role = "aut"))
 Description: Provides functions to simulate Pool-seq data under models of
@@ -23,7 +23,7 @@ Imports:
     locfit,
     MetricsWeighted,
     nnet,
-    poolHelper (>= 0.0.0.9000),
+    poolHelper (>= 1.1.0),
     RColorBrewer,
     rlang,
     scrm,
