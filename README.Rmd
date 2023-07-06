@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-[![](https://zenodo.org/badge/DOI/10.5281/zenodo.7520303.svg)](https://doi.org/10.5281/zenodo.7520303)
+[![](https://zenodo.org/badge/564786207.svg)](https://zenodo.org/badge/latestdoi/564786207)
 
 <!-- badges: end -->
 
