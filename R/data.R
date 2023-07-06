@@ -202,7 +202,7 @@
 #'   \item{col35 - col59}{frequencies of the second most frequent allele (minor)
 #'   in the form "allele-count/coverage".} }
 #'
-#' @source <https://www.science.org/doi/full/10.1126/sciadv.aav9963>
+#' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
 #'
 #' @keywords datasets
 "rc1"
@@ -257,7 +257,7 @@
 #'   \item{col35 - col59}{frequencies of the second most frequent allele (minor)
 #'   in the form "allele-count/coverage".} }
 #'
-#' @source <https://www.science.org/doi/full/10.1126/sciadv.aav9963>
+#' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
 #'
 #' @keywords datasets
 "rc2"

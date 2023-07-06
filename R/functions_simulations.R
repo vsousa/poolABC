@@ -1942,7 +1942,7 @@ poolSim <- function(model, nDip, nPops, size, nLoci, nSites, mutrate, mean, vari
     stop(paste("The selected model should contain only two populations. Please check"))
 
   # check if the input is correct - the list "size" should contain one different entry per population
-  if(class(size) == "list" & length(size) != nPops)
+  if(inherits(size, "list") & length(size) != nPops)
     stop(paste("The list input - size - should have one entry per population. Please check"))
 
   # check if the input is correct - the vectors "mean" and "variance" should contain one different entry per population

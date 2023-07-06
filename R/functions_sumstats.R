@@ -292,7 +292,7 @@ shared <- function(minor, total, nPops) {
 Expected_Het <- function(Pop_Pi) {
 
   # dealing with a single matrix of population allelic frequencies - a single locus or simulation
-  if(class(Pop_Pi) == "matrix") {
+  if(inherits(Pop_Pi, "matrix")) {
 
     # compute the expected heterozygosity for a site - this code goes across all sites
     het <- apply(Pop_Pi, c(1,2), function (frequency) 2*frequency*(1 - frequency))
@@ -333,7 +333,7 @@ Expected_Het <- function(Pop_Pi) {
 meanExpected_Het <- function(Pop_Pi) {
 
   # dealing with a single matrix of population allelic frequencies - a single locus or simulation
-  if(class(Pop_Pi) == "matrix") {
+  if(inherits(Pop_Pi, "matrix")) {
 
     # compute the expected heterozygosity for a site - this code goes across all sites
     het <- apply(Pop_Pi, c(1,2), function (frequency) 2*frequency*(1 - frequency))
@@ -383,7 +383,7 @@ meanExpected_Het <- function(Pop_Pi) {
 Het_Between <- function(Pop_Pi) {
 
   # when dealing with a single matrix of population frequencies - one locus or one simulation
-  if(class(Pop_Pi) == "matrix") {
+  if(inherits(Pop_Pi, "matrix")) {
 
     # considering only two populations (according to Hudson (1992) estimator, using the formula of Chen (2015):
     # http://journals.plos.org/plosone/article/metrics?id=10.1371/journal.pone.0135368
@@ -565,7 +565,7 @@ pairFST <- function(nPops, Pop_pi, coverage) {
 popsFST <- function(nPops, Pop_pi, coverage) {
 
   # check if the Pop_pi is in the correct (list) format
-  if(class(Pop_pi) != "list")
+  if(!inherits(Pop_pi, "list"))
     stop(paste("This function should be utilized with more than one locus. Please check"))
 
   # compute FST across a list - multiple locus simulation

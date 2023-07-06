@@ -10,7 +10,7 @@ Description: Provides functions to simulate Pool-seq data under models of
     Implements two ABC algorithms for performing parameter estimation and 
     model selection using Pool-seq data. Cross-validation can also be 
     performed to assess the accuracy of ABC estimates and calculate model 
-    misclassification.
+    misclassification. 
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -34,8 +34,6 @@ Depends:
 LazyData: true
 URL: https://github.com/joao-mcarvalho/poolABC
 BugReports: https://github.com/joao-mcarvalho/poolABC/issues
-Remotes: 
-    joao-mcarvalho/poolHelper
 Suggests: 
     knitr,
     rmarkdown

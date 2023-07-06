@@ -40,7 +40,7 @@ form "allele-count/coverage.}
 in the form "allele-count/coverage".} }
 }
 \source{
-\url{https://www.science.org/doi/full/10.1126/sciadv.aav9963}
+\url{https://www.science.org/doi/10.1126/sciadv.aav9963}
 }
 \usage{
 rc1

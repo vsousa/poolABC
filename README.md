@@ -18,7 +18,7 @@ estimates and calculate model misclassification.
 
 ## Installation
 
-You can install the development version of poolABC from
+You can install the development version of `poolABC` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -26,11 +26,9 @@ You can install the development version of poolABC from
 devtools::install_github("joao-mcarvalho/poolABC")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+Alternatively, you can install the current stable version of `poolABC`
+from CRAN:
 
 ``` r
-library(poolABC)
-## basic example code
+install.packages("poolABC")
 ```

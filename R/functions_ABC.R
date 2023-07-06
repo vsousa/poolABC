@@ -2186,7 +2186,7 @@ plot_stats <- function(sumstat, target, accepted, index = NA, colour = TRUE) {
       stop("sumstat names are not the same for the global summmary statistics and the target!")
 
     # check if the target input is in the correct format
-    if(class(target) != "numeric")
+    if(!inherits(target, "numeric"))
       stop("the 'target' input should be a vector with each sumstat value in a different entry")
 
     # get the name of the parameter of interest
