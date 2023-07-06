@@ -23,18 +23,15 @@ The goal of `poolABC` is to help users perform model choice and parameter infere
 
 ## Installation
 
-You can install the development version of poolABC from [GitHub](https://github.com/) with:
+You can install the development version of `poolABC` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("joao-mcarvalho/poolABC")
 ```
 
-## Example
+Alternatively, you can install the current stable version of `poolABC` from CRAN:
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(poolABC)
-## basic example code
+``` r
+install.packages("poolABC")
 ```
