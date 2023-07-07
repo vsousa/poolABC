@@ -1797,6 +1797,24 @@ multipleABC <- function(targets, params, sumstats, limits, tol, method, parallel
 #'   summary statistics.}
 #'
 #' @examples
+#' # this function requires several external objects and so it is hard to exemplify
+#'
+#' # to perform parameter inference for two populations using the rejection method
+#' # and with a tolerance of 0.01
+#' # myabc <- ABC(nPops = 2, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
+#' # window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "rejection")
+#'
+#' # the previous line will perform parameter inference for 100 different targets (ntrials = 100)
+#' # each of those trials will be comprised of 10 loci, each with 1000 base pairs
+#'
+#' # to perform parameter inference for four populations using the regression method
+#' # and with a tolerance of 0.01
+#' # myabc <- ABC(nPops = 4, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
+#' # window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "regression")
+#'
+#' @seealso
+#' For more details see the poolABC vignette:
+#' \code{vignette("poolABC", package = "poolABC")}
 #'
 #' @export
 ABC <- function(nPops, ntrials, freqs, positions, range, rMajor, rMinor, coverage, window, nLoci, limits,

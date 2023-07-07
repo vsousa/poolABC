@@ -204,6 +204,10 @@
 #'
 #' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
 #'
+#'   Hernán E. Morales et al., Genomic architecture of parallel ecological
+#'   divergence: Beyond a single environmental contrast. Sci. Adv.5,
+#'   eaav9963(2019). DOI:10.1126/sciadv.aav9963
+#'
 #' @keywords datasets
 "rc1"
 
@@ -258,6 +262,10 @@
 #'   in the form "allele-count/coverage".} }
 #'
 #' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
+#'
+#'  Hernán E. Morales et al., Genomic architecture of parallel ecological
+#'  divergence: Beyond a single environmental contrast. Sci. Adv.5,
+#'  eaav9963(2019). DOI:10.1126/sciadv.aav9963
 #'
 #' @keywords datasets
 "rc2"
