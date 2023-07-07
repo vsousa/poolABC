@@ -1,6 +1,6 @@
 Package: poolABC
 Title: Tools for Approximate Bayesian Computation with Pooled Sequencing Data
-Version: 0.9.9
+Version: 1.0.0
 Authors@R: c(
     person("João", "Carvalho", , "jgcarvalho@fc.ul.pt", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-1728-0075")),
