@@ -1186,18 +1186,23 @@ prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
 #'   a different site and each column is a different population.}
 #'
 #' @examples
+#' \donttest{
 #' # this function should be used to import your data
 #' # you should include the path to the folder your PoPoolation2 data is
 #'
 #' # an example of how to import data for two populations from all files
-#' # mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10))
+#' importContigs(path = "folder_where_mydata_is/", pops = c(8, 10))
 #'
 #' # if your data is split into multiple files and you want to import only a few
-#' # mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10), files = 1:10)
+#' importContigs(path = "folder_where_mydata_is/", pops = c(8, 10), files = 1:10)
 #'
 #' # to remove contigs from the data
-#' # mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10),
-#' # remove = c("contig1", "contig10))
+#' importContigs(path = "data/", pops = c(8, 10), files = 1:10, remove = c("contig1", "contig10"))
+#' }
+#'
+#' @seealso
+#' For more details see the poolABC vignette:
+#' \code{vignette("poolABC", package = "poolABC")}
 #'
 #' @export
 importContigs <- function(path, pops, files = NA, header = NA, remove = NA, min.minor = NA,
@@ -1220,6 +1225,8 @@ importContigs <- function(path, pops, files = NA, header = NA, remove = NA, min.
 
   # store the current working directory on a variable
   currentwd <- getwd()
+  # ensure that we get back to the current working directory
+  on.exit(setwd(currentwd))
 
   # then navigate to the folder where the data is saved
   setwd(path)

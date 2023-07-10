@@ -202,7 +202,7 @@
 #'   \item{col35 - col59}{frequencies of the second most frequent allele (minor)
 #'   in the form "allele-count/coverage".} }
 #'
-#' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
+#' @source
 #'
 #'   Hernán E. Morales et al., Genomic architecture of parallel ecological
 #'   divergence: Beyond a single environmental contrast. Sci. Adv.5,
@@ -261,7 +261,7 @@
 #'   \item{col35 - col59}{frequencies of the second most frequent allele (minor)
 #'   in the form "allele-count/coverage".} }
 #'
-#' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
+#' @source
 #'
 #'  Hernán E. Morales et al., Genomic architecture of parallel ecological
 #'  divergence: Beyond a single environmental contrast. Sci. Adv.5,

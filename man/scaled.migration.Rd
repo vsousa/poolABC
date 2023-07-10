@@ -32,11 +32,12 @@ is performed for the three available models and according to the specific
 model conformation.
 }
 \examples{
-# load the matrix with simulated parameter values
-data(params)
+\donttest{
+# compute scaled migration for a two-population model
+scaled.migration(parameters = myparams, model = "2pops", Nref = 10000)
 
-# compute scaled migration
-
-
+# compute scaled migration for a four-population model
+scaled.migration(parameters = myparams, model = "Parallel", Nref = 20000)
+}
 
 }

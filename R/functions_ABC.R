@@ -165,12 +165,13 @@ priorsMatrix <- function(model, inputParams) {
 #'   the scaled migration rates.
 #'
 #' @examples
-#' # load the matrix with simulated parameter values
-#' data(params)
+#' \donttest{
+#' # compute scaled migration for a two-population model
+#' scaled.migration(parameters = myparams, model = "2pops", Nref = 10000)
 #'
-#' # compute scaled migration
-#'
-#'
+#' # compute scaled migration for a four-population model
+#' scaled.migration(parameters = myparams, model = "Parallel", Nref = 20000)
+#' }
 #'
 #' @export
 scaled.migration <- function(parameters, model, Nref = NA) {
@@ -1609,6 +1610,9 @@ multipleABC <- function(targets, params, sumstats, limits, tol, method, parallel
   # if parallel is TRUE, this functions performs parallel execution of the rejection sampling
   if(parallel == TRUE) {
 
+    # so %dopar% doesn't need to be attached
+    `%dopar%` <- foreach::`%dopar%`
+
     # check if the number of cores are specified
     if(is.na(ncores))
       stop("Please specify the number of cores to use for parallel execution")
@@ -1797,20 +1801,22 @@ multipleABC <- function(targets, params, sumstats, limits, tol, method, parallel
 #'   summary statistics.}
 #'
 #' @examples
+#' \donttest{
 #' # this function requires several external objects and so it is hard to exemplify
 #'
 #' # to perform parameter inference for two populations using the rejection method
 #' # and with a tolerance of 0.01
-#' # myabc <- ABC(nPops = 2, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
-#' # window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "rejection")
+#' myabc <- ABC(nPops = 2, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
+#' window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "rejection")
 #'
-#' # the previous line will perform parameter inference for 100 different targets (ntrials = 100)
+#' # the previous will perform parameter inference for 100 different targets (ntrials = 100)
 #' # each of those trials will be comprised of 10 loci, each with 1000 base pairs
 #'
 #' # to perform parameter inference for four populations using the regression method
 #' # and with a tolerance of 0.01
-#' # myabc <- ABC(nPops = 4, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
-#' # window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "regression")
+#' myabc <- ABC(nPops = 4, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
+#' window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "regression")
+#' }
 #'
 #' @seealso
 #' For more details see the poolABC vignette:
@@ -2942,6 +2948,9 @@ simulationABC <- function(params, sumstats, limits, nval, tol, method, parallel 
   # if parallel is TRUE, this functions performs parallel execution of the simulation study
   if(parallel == TRUE) {
 
+    # so %dopar% doesn't need to be attached
+    `%dopar%` <- foreach::`%dopar%`
+
     # check if the number of cores are specified
     if(is.na(ncores))
       stop("Please specify the number of cores to use for parallel execution")
@@ -3121,7 +3130,7 @@ plot_error <- function(true, estimated, transformation = "none", param.name = NU
 #' data(limits)
 #'
 #' # perform a leave-one-out cross validation for ABC
-#' mysim <- simulationABC(params = params, sumstats = sumstats, limits, nval = 100,
+#' mysim <- simulationABC(params = params, sumstats = sumstats, limits, nval = 10,
 #' tol = 0.1, method = "regression")
 #'
 #' # plot the prediction error for a given parameter
@@ -3575,19 +3584,10 @@ sim_modelSel <- function(index, sumstats, nval, tol, warning = FALSE) {
   # select random entries of the vector of model indices to act as the target
   cvsamp <- unlist(tapply(c(1:length(index)), index, sample, nval))
 
-  # run the following bit of code without warnings - first, get the default warning level
-  defaultW <- getOption("warn")
-
-  # reduce the warning level to suppress most warning
-  options(warn = -1)
-
   # perform model selection over all the nvals
-  model.sel <- lapply(1:length(cvsamp), FUN = function(i)
+  suppressWarnings(model.sel <- lapply(1:length(cvsamp), FUN = function(i)
     modelSelect(target = sumstats[cvsamp[i], ], index = index[-cvsamp[i]], sumstats = sumstats[-cvsamp[i], ],
-                tol = tol, method = "regression", warning = warning))
-
-  # set the warning level back to the default value
-  options(warn = defaultW)
+                tol = tol, method = "regression", warning = warning)))
 
   # get the prediction from each of the evaluations performed
   preds <- t(sapply(model.sel, FUN = function(i) i[["pred"]]))
