@@ -64,7 +64,7 @@ data(sumstats)
 data(limits)
 
 # perform a leave-one-out cross validation for ABC
-mysim <- simulationABC(params = params, sumstats = sumstats, limits, nval = 100,
+mysim <- simulationABC(params = params, sumstats = sumstats, limits, nval = 10,
 tol = 0.1, method = "regression")
 
 # plot the prediction error for a given parameter

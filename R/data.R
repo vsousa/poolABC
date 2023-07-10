@@ -102,6 +102,53 @@
 #' @keywords datasets
 "params"
 
+#' @name myparams
+#'
+#' @docType data
+#'
+#' @aliases myparams
+#'
+#' @title Matrix of simulated parameter values
+#'
+#' @description This data set contains a matrix of simulated parameter values.
+#'   These parameter values were sampled from prior distributions and used to
+#'   perform simulations under a isolation with migration model with two
+#'   populations. Each row of this matrix corresponds to a different simulation.
+#'
+#' @usage myparams
+#'
+#' @format a matrix with 5000 rows and 8 columns:
+#'
+#'   \describe{
+#'
+#'   \item{N1}{relative size of the first population. This population
+#'   corresponds to the C ecotype.}
+#'
+#'   \item{N2}{relative size of the second population. This population
+#'   corresponds to the W ecotype.}
+#'
+#'   \item{Split}{time, in 4Nref scale, of the split event that creates the two
+#'   populations.}
+#'
+#'   \item{PoolError}{error associated with DNA pooling.}
+#'
+#'   \item{SeqError}{error associated with DNA sequencing.}
+#'
+#'   \item{mCW}{migration rate between the two divergent ecotypes This
+#'   is the migration rate from ecotype C to ecotype W.}
+#'
+#'   \item{mWC}{migration rate between the two divergent ecotypes This
+#'   is the migration rate from ecotype W to ecotype C.}
+#'
+#'   \item{pM}{proportion of the genome with no barriers against gene flow. This
+#'   is the proportion of simulated loci where migration occurs in both
+#'   directions between the divergent ecotypes.} }
+#'
+#' @source simulations performed
+#'
+#' @keywords datasets
+"myparams"
+
 
 #' @name limits
 #'
@@ -202,7 +249,7 @@
 #'   \item{col35 - col59}{frequencies of the second most frequent allele (minor)
 #'   in the form "allele-count/coverage".} }
 #'
-#' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
+#' @source
 #'
 #'   Hernán E. Morales et al., Genomic architecture of parallel ecological
 #'   divergence: Beyond a single environmental contrast. Sci. Adv.5,
@@ -261,7 +308,7 @@
 #'   \item{col35 - col59}{frequencies of the second most frequent allele (minor)
 #'   in the form "allele-count/coverage".} }
 #'
-#' @source <https://www.science.org/doi/10.1126/sciadv.aav9963>
+#' @source
 #'
 #'  Hernán E. Morales et al., Genomic architecture of parallel ecological
 #'  divergence: Beyond a single environmental contrast. Sci. Adv.5,

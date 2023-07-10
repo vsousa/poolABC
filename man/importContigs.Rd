@@ -105,14 +105,17 @@ each of those entries is a different contig.
 # this function should be used to import your data
 # you should include the path to the folder your PoPoolation2 data is
 
-# an example of how to import data for two populations from all files
-# mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10))
+# this creates a variable with the path for the toy example data
+mypath <- system.file('extdata', package = 'poolABC')
 
-# if your data is split into multiple files and you want to import only a few
-# mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10), files = 1:10)
+# an example of how to import data for two populations from all files
+importContigs(path = mypath, pops = c(8, 10))
 
 # to remove contigs from the data
-# mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10),
-# remove = c("contig1", "contig10))
+importContigs(path = mypath, pops = c(8, 10), remove = "Contig1708")
 
+}
+\seealso{
+For more details see the poolABC vignette:
+\code{vignette("poolABC", package = "poolABC")}
 }

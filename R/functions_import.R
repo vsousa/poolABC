@@ -1003,7 +1003,7 @@ prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
 
   # create a matrix with the minimum and maximum position for each contig
   rangeContig <- mapply(FUN = function(contigs, info)  sapply(contigs, FUN = function(x)
-    range(info[info[, 1] == x, 2 , drop = FALSE])), nContigs, info)
+    range(info[info[, 1] == x, 2 , drop = FALSE])), nContigs, info, SIMPLIFY = FALSE)
   # now we know how big is each contig - prior to removing monomorphic sites
 
   # get the number of reads for the major frequency allele - combine the information into a single list
@@ -1056,25 +1056,25 @@ prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
 
   # roughly the same line of code can be used to save the SNPs of each contig into an entry of a list
   freqContigs <- mapply(FUN = function(contigs, freqs, info)  sapply(contigs, FUN = function(x)
-    freqs[info[, 1] == x, , drop = FALSE]), nContigs, freqs, info)
+    freqs[info[, 1] == x, , drop = FALSE]), nContigs, freqs, info, SIMPLIFY = FALSE)
   # transform the previous into a list where each entry is a single contig
   freqContigs <- unlist(freqContigs, recursive = FALSE)
 
   # get the number of reads per contig - for the major allele
   majorContigs <- mapply(FUN = function(contigs, rMajor, info)  sapply(contigs, FUN = function(x)
-    rMajor[info[, 1] == x, , drop = FALSE]), nContigs, rMajor, info)
+    rMajor[info[, 1] == x, , drop = FALSE]), nContigs, rMajor, info, SIMPLIFY = FALSE)
   # transform the previous into a list where each entry is a single contig
   majorContigs <- unlist(majorContigs, recursive = FALSE)
 
   # get the number of reads per contig - for the minor allele
   minorContigs <- mapply(FUN = function(contigs, rMinor, info)  sapply(contigs, FUN = function(x)
-    rMinor[info[, 1] == x, , drop = FALSE]), nContigs, rMinor, info)
+    rMinor[info[, 1] == x, , drop = FALSE]), nContigs, rMinor, info, SIMPLIFY = FALSE)
   # transform the previous into a list where each entry is a single contig
   minorContigs <- unlist(minorContigs, recursive = FALSE)
 
   # get the coverage per contig
   dpContigs <- mapply(FUN = function(contigs, dp, info)  sapply(contigs, FUN = function(x)
-    dp[info[, 1] == x, , drop = FALSE]), nContigs, dp, info)
+    dp[info[, 1] == x, , drop = FALSE]), nContigs, dp, info, SIMPLIFY = FALSE)
   # transform the previous into a list where each entry is a single contig
   dpContigs <- unlist(dpContigs, recursive = FALSE)
 
@@ -1082,7 +1082,7 @@ prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
   info <- lapply(info, as.matrix)
   # get the info per contig
   infoContig <- mapply(FUN = function(contigs, info) sapply(contigs, FUN = function(x)
-    info[info[, 1] == x, , drop = FALSE]), nContigs, info)
+    info[info[, 1] == x, , drop = FALSE]), nContigs, info, SIMPLIFY = FALSE)
   # transform the previous into a list where each entry is a single contig
   infoContig <- unlist(infoContig, recursive = FALSE)
   # get the vector of position for each kept contig
@@ -1090,7 +1090,8 @@ prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
   # convert each entry back into a data frame
   infoContig <- lapply(infoContig, function(contig) data.frame(contig))
 
-  # transform the list containing the minimum and maximum position of each contig into a list where each entry is a single contig
+  # transform the list containing the minimum and maximum position of each contig
+  # into a list where each entry is a single contig
   # first, get the names of all the contigs stored on this list
   tempnames <- unlist(lapply(rangeContig, colnames))
   # then, convert each column of each list entry (i.e. each column of a matrix) into a list entry
@@ -1189,15 +1190,18 @@ prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
 #' # this function should be used to import your data
 #' # you should include the path to the folder your PoPoolation2 data is
 #'
-#' # an example of how to import data for two populations from all files
-#' # mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10))
+#' # this creates a variable with the path for the toy example data
+#' mypath <- system.file('extdata', package = 'poolABC')
 #'
-#' # if your data is split into multiple files and you want to import only a few
-#' # mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10), files = 1:10)
+#' # an example of how to import data for two populations from all files
+#' importContigs(path = mypath, pops = c(8, 10))
 #'
 #' # to remove contigs from the data
-#' # mydata <- importContigs(path = "/folder_where_mydata_is", pops = c(8, 10),
-#' # remove = c("contig1", "contig10))
+#' importContigs(path = mypath, pops = c(8, 10), remove = "Contig1708")
+#'
+#' @seealso
+#' For more details see the poolABC vignette:
+#' \code{vignette("poolABC", package = "poolABC")}
 #'
 #' @export
 importContigs <- function(path, pops, files = NA, header = NA, remove = NA, min.minor = NA,
@@ -1220,6 +1224,8 @@ importContigs <- function(path, pops, files = NA, header = NA, remove = NA, min.
 
   # store the current working directory on a variable
   currentwd <- getwd()
+  # ensure that we get back to the current working directory
+  on.exit(setwd(currentwd))
 
   # then navigate to the folder where the data is saved
   setwd(path)

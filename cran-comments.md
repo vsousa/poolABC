@@ -1,23 +1,35 @@
 ## R CMD check results
 
--   This is a new release
+-   This is a new release*
 
-0 errors \| 0 warnings \| 3 notes
+0 errors ✔ | 0 warnings ✔ | 2 notes ✖
 
-❯ Found the following (possibly) invalid URLs: URL: <https://www.science.org/doi/10.1126/sciadv.aav9963>
+❯ checking CRAN incoming feasibility ... NOTE
+  Maintainer: ‘João Carvalho <jgcarvalho@fc.ul.pt>’
+  
+❯ Possibly mis-spelled words in DESCRIPTION:
+    Carvalho (13:5)
+    al (13:17)
+    et (13:14)
 
-From: man/rc1.Rd man/rc2.Rd Status: 403 Message: Forbidden
+This is just my name, sorry! 
 
-This URL works fine when I click on it. It is a link to a research paper that used the data included as an example in this package.
+❯ Found the following (possibly) invalid DOIs:
+    DOI: 10.1111/1755-0998.13834
+      From: DESCRIPTION
+      Status: Not Found
+      Message: 404
+  
+I got this DOI from molecular ecology resources. The manuscript related with this package was accepted there.
+The article is still not online but it should be up soon. 
 
-❯ Possibly mis-spelled words in DESCRIPTION: ecotype (10:5)
+❯ checking installed package size ... NOTE
+    installed size is  7.0Mb
+    sub-directories of 1Mb or more:
+      data      2.7Mb
+      extdata   3.5Mb
 
-This word is correctly spelled - it is a term used in evolutionary biology.
-
-❯ checking R code for possible problems ... NOTE multipleABC: no visible global function definition for '%dopar%' simulationABC: no visible global function definition for '%dopar%' Undefined global functions or variables: %dopar%
-
-Some functions include the possibility of parallel computation using the doParallel R package. There seems to be no way to correctly define the %dopar% included in that package.
-
-❯ checking examples ... NOTE Examples with CPU (user + system) or elapsed time \> 5s user system elapsed poolSim 75.455 0.412 75.980 plot_errorABC 27.548 0.071 27.681
-
-These examples involve a coalescent-based simulation of genotypes and the computation of prediction errors using Approximate Bayesian Computation. They are needed to illustrate the use of those functions.
+This includes data that is required as an example for some of the functions. 
+This data will rarely (if ever) be updated. 
+  
+* This a resubmission of a new submission

@@ -1919,13 +1919,13 @@ poolStats <- function(parameters, model, nDip, size, nLoci, nSites, mutrate, mea
 #'
 #' @examples
 #' # simulate Pool-seq data and compute summary statistics for a model with two populations
-#' poolSim(model="2pops", nDip=400, nPops=2, nLoci=300, nSites=2000, mutrate=1.5e-8,
+#' poolSim(model="2pops", nDip=400, nPops=2, nLoci=10, nSites=2000, mutrate=1.5e-8,
 #' size=rep(list(rep(5, 20)), 2),mean=c(85, 65), variance=c(1400, 900), minimum=25,
 #' maximum=165, min.minor=2, Nref=c(25000, 25000), ratio=c(0.1, 3), pool=c(5, 250),
 #' seq=c(0.0001, 0.001), split=c(0, 3), CW=c(1e-13, 1e-3), WC=c(1e-13, 1e-3), bT=c(0, 0.5))
 #'
 #' # simulate Pool-seq data and compute summary statistics for a model with four populations
-#' poolSim(model="Single", nDip=400, nPops=4, nLoci=300, nSites=2000, mutrate=2e-8,
+#' poolSim(model="Single", nDip=400, nPops=4, nLoci=10, nSites=2000, mutrate=2e-8,
 #' size=rep(list(rep(5, 20)), 4), mean=c(85, 65, 65, 70), variance=c(1400, 900, 850, 1000),
 #' minimum=25, maximum=165, min.minor=2, Nref=c(25000, 25000), ratio=c(0.1, 3), pool=c(5, 250),
 #' seq=c(0.0001, 0.001), split=c(0, 3), CW=c(1e-13, 1e-3), WC=c(1e-13, 1e-3), CC=c(1e-13, 1e-3),

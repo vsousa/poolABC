@@ -146,20 +146,29 @@ distance between the simulated and observed summary statistics and corrected
 according to a linear transformation.
 }
 \examples{
-# this function requires several external objects and so it is hard to exemplify
+# Note that this example is limited to a few of the options available
+# you should check the poolABC vignette for more details
+
+# this creates a variable with the path for the toy example data
+mypath <- system.file('extdata', package = 'poolABC')
+
+# import data for two populations from all files
+mydata <- importContigs(path = mypath, pops = c(8, 10))
 
 # to perform parameter inference for two populations using the rejection method
 # and with a tolerance of 0.01
-# myabc <- ABC(nPops = 2, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
-# window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "rejection")
+myabc <- ABC(nPops = 2, ntrials = 10, freqs = mydata$freqs, positions = mydata$positions,
+range = mydata$range, rMajor = mydata$rMajor, rMinor = mydata$rMinor, coverage = mydata$coverage,
+window = 1000, nLoci = 4, limits, params, sumstats, tol = 0.01, method = "rejection")
 
-# the previous line will perform parameter inference for 100 different targets (ntrials = 100)
-# each of those trials will be comprised of 10 loci, each with 1000 base pairs
+# the previous will perform parameter inference for 10 different targets (ntrials = 100)
+# each of those trials will be comprised of 4 loci, each with 1000 base pairs
 
-# to perform parameter inference for four populations using the regression method
+# to perform parameter inference for two populations using the regression method
 # and with a tolerance of 0.01
-# myabc <- ABC(nPops = 4, ntrials = 100, freqs, positions, range, rMajor, rMinor, coverage,
-# window = 1000, nLoci = 10, limits, params, sumstats, tol = 0.01, method = "regression")
+myabc <- ABC(nPops = 2, ntrials = 10, freqs = mydata$freqs, positions = mydata$positions,
+range = mydata$range, rMajor = mydata$rMajor, rMinor = mydata$rMinor, coverage = mydata$coverage,
+window = 1000, nLoci = 4, limits, params, sumstats, tol = 0.01, method = "regression")
 
 }
 \seealso{
