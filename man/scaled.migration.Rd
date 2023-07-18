@@ -34,4 +34,5 @@ model conformation.
 \examples{
 # compute scaled migration for a two-population model
 scaled.migration(parameters = myparams, model = "2pops", Nref = 10000)
+
 }

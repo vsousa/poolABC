@@ -1187,7 +1187,6 @@ prepareData <- function(data, nPops, filter = FALSE, threshold = NA) {
 #'   a different site and each column is a different population.}
 #'
 #' @examples
-#' \donttest{
 #' # this function should be used to import your data
 #' # you should include the path to the folder your PoPoolation2 data is
 #'
