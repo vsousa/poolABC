@@ -1813,7 +1813,7 @@ multipleABC <- function(targets, params, sumstats, limits, tol, method, parallel
 #'
 #' # the previous will perform parameter inference for 10 different targets (ntrials = 100)
 #' # each of those trials will be comprised of 4 loci, each with 1000 base pairs
-#'
+#' 
 #' # to perform parameter inference for two populations using the regression method
 #' # and with a tolerance of 0.01
 #' myabc <- ABC(nPops = 2, ntrials = 10, freqs = mydata$freqs, positions = mydata$positions,

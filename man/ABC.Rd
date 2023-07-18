@@ -169,7 +169,6 @@ window = 1000, nLoci = 4, limits, params, sumstats, tol = 0.01, method = "reject
 myabc <- ABC(nPops = 2, ntrials = 10, freqs = mydata$freqs, positions = mydata$positions,
 range = mydata$range, rMajor = mydata$rMajor, rMinor = mydata$rMinor, coverage = mydata$coverage,
 window = 1000, nLoci = 4, limits, params, sumstats, tol = 0.01, method = "regression")
-
 }
 \seealso{
 For more details see the poolABC vignette:

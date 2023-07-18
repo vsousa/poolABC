@@ -113,7 +113,6 @@ importContigs(path = mypath, pops = c(8, 10))
 
 # to remove contigs from the data
 importContigs(path = mypath, pops = c(8, 10), remove = "Contig1708")
-
 }
 \seealso{
 For more details see the poolABC vignette:
