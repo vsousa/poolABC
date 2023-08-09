@@ -47,7 +47,10 @@ Briefly, we obtain one set of summary statistics for each set of simulated loci 
 This package uses pooled sequencing data stored on `_rc` format files. These `_rc` files are created by running the `SNP-frequency-diff.pl` function of `popoolation2`. Briefly, this is an example of a typical `_rc` file with only two populations:
 
 ```{r example, tidy=TRUE}
-data.frame(chr = c("NC297", "NC297"), pos =c(3530, 5450), rc = c("A", "T"), allele_count = 2, allele_states = c("A/G", "T/A"), deletion_sum = 0, snp_type = "pop", major_alleles = c("AA", "TT"), minor_alleles = c("GG", "AN"), maa_1 = c("54/55", "51/54"), maa_2 = c("76/78",  "96/96"), mia_1 = c("1/55", "3/54"), mia_2 = c("2/78", "0/96"))
+data.frame(chr = c("NC297", "NC297"), pos =c(3530, 5450), rc = c("A", "T"), allele_count = 2, 
+           allele_states = c("A/G", "T/A"), deletion_sum = 0, snp_type = "pop", 
+           major_alleles = c("AA","TT"), minor_alleles = c("GG", "AN"), maa_1 = c("54/55", "51/54"), 
+           maa_2 = c("76/78",  "96/96"), mia_1 = c("1/55", "3/54"), mia_2 = c("2/78", "0/96"))
 ```
 
 More information about these files can be found at: <https://sourceforge.net/p/popoolation2/wiki/Main/>

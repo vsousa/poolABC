@@ -17,16 +17,15 @@ This is just my name, sorry!
 ❯ Found the following (possibly) invalid DOIs:
     DOI: 10.1111/1755-0998.13834
       From: DESCRIPTION
-      Status: Not Found
-      Message: 404
+      Status: Forbidden
+      Message: 403
   
-I got this DOI from molecular ecology resources. The manuscript related with this package was accepted there.
-The article is still not online but it should be up soon. 
+This DOI leads to a manuscript about the package and the associated method in Molecular Êcology Resources. The manuscript is not open acess but the link works and should let you read the abstract and acess relevant links.
 
 ❯ checking installed package size ... NOTE
     installed size is  7.0Mb
     sub-directories of 1Mb or more:
-      data      2.7Mb
+      data      2.7Mb 
       extdata   3.5Mb
 
 This includes data that is required as an example for some of the functions. 
